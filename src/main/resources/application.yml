@@ -1,0 +1,56 @@
+server:
+  port: 4000
+
+
+spring:
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+
+  main:
+    allow-bean-definition-overriding: true
+
+  application:
+    name: backend
+
+#  mail:
+#    host: ${MAILER_HOST}
+#    port: ${MAILER_PORT}
+#    username: ${MAILER_USERNAME}
+#    password: ${MAILER_PASSWORD}
+#    admin_notify_mail: ${MAILER_ADMIN_NOTIFY_MAIL}
+#    admin_personal: ${MAILER_ADMIN_PERSONAL}
+#    properties:
+#      mail:
+#        smtp:
+#          auth: true
+#          starttls:
+#            enable: true
+
+
+  r2dbc:
+    url: r2dbc:mariadb://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    pool:
+      enabled: true
+      initial-size: 10
+      max-size: 50
+
+
+  sql:
+    init:
+      mode: always
+      platform: mariadb
+      schema-locations: classpath:schema.sql
+
+
+springdoc:
+  swagger-ui:
+    path: /
+
+
+payments:
+  stripe:
+    secret_key: ${PAYMENTS_STRIPE_SECRET_KEY}

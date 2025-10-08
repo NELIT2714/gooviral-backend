@@ -54,3 +54,10 @@ springdoc:
 payments:
   stripe:
     secret_key: ${PAYMENTS_STRIPE_SECRET_KEY}
+    webhook_secret_key: ${PAYMENTS_STRIPE_WEBHOOK_SECRET_KEY}
+
+
+cors:
+  api_key: "123"
+  allowed_origins:
+    - http://localhost:3000

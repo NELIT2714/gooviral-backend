@@ -1,9 +1,13 @@
 package pl.gooviral.backend.controllers;
 
+import com.stripe.exception.SignatureVerificationException;
+import com.stripe.model.Event;
+import com.stripe.model.checkout.Session;
+import com.stripe.net.Webhook;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import pl.gooviral.backend.config.StripeConfig;
 import pl.gooviral.backend.services.payments.StripeService;
 import reactor.core.publisher.Mono;
 
@@ -32,5 +36,12 @@ public class PaymentsController {
             .onErrorResume(e -> Mono.just(ResponseEntity.status(500).body(Map.of(
                 "status", false
             ))));
+    }
+
+    @PostMapping("/v1/payments/stripe/webhook")
+    public Mono<Void> handleWebhook(@RequestBody Mono<String> body,
+                                    @RequestHeader("Stripe-Signature") String sigHeader) {
+        return body.doOnNext(payload -> stripeService.handleEvent(payload, sigHeader))
+            .then();
     }
 }

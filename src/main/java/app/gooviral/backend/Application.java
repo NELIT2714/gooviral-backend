@@ -1,4 +1,4 @@
-package pl.gooviral.backend;
+package app.gooviral.backend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

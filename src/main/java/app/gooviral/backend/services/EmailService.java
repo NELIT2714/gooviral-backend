@@ -1,4 +1,4 @@
-package pl.gooviral.backend.services;
+package app.gooviral.backend.services;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;

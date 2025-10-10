@@ -1,4 +1,4 @@
-package pl.gooviral.backend.config;
+package app.gooviral.backend.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

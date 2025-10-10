@@ -1,4 +1,4 @@
-package pl.gooviral.backend.config;
+package app.gooviral.backend.config;
 
 import com.stripe.Stripe;
 import jakarta.annotation.PostConstruct;

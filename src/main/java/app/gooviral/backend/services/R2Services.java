@@ -1,4 +1,4 @@
-package pl.gooviral.backend.services;
+package app.gooviral.backend.services;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

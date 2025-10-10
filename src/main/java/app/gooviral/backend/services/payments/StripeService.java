@@ -1,4 +1,4 @@
-package pl.gooviral.backend.services.payments;
+package app.gooviral.backend.services.payments;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -13,9 +13,9 @@ import com.stripe.param.PaymentLinkCreateParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import pl.gooviral.backend.config.StripeConfig;
-import pl.gooviral.backend.services.EmailService;
-import pl.gooviral.backend.services.R2Services;
+import app.gooviral.backend.config.StripeConfig;
+import app.gooviral.backend.services.EmailService;
+import app.gooviral.backend.services.R2Services;
 import reactor.core.publisher.Mono;
 
 import java.util.HashMap;

@@ -1,8 +1,8 @@
-package pl.gooviral.backend.controllers;
+package app.gooviral.backend.controllers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.gooviral.backend.services.payments.StripeService;
+import app.gooviral.backend.services.payments.StripeService;
 import reactor.core.publisher.Mono;
 
 import java.util.Map;

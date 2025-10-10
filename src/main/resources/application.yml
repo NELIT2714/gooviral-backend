@@ -14,19 +14,20 @@ spring:
   application:
     name: backend
 
-#  mail:
-#    host: ${MAILER_HOST}
-#    port: ${MAILER_PORT}
-#    username: ${MAILER_USERNAME}
-#    password: ${MAILER_PASSWORD}
-#    admin_notify_mail: ${MAILER_ADMIN_NOTIFY_MAIL}
-#    admin_personal: ${MAILER_ADMIN_PERSONAL}
-#    properties:
-#      mail:
-#        smtp:
-#          auth: true
-#          starttls:
-#            enable: true
+  mail:
+    host: ${MAILER_HOST}
+    port: ${MAILER_PORT}
+    username: ${MAILER_USERNAME}
+    password: ${MAILER_PASSWORD}
+    admin_mail: ${MAILER_ADMIN_MAIL}
+    admin_personal: ${MAILER_ADMIN_PERSONAL}
+    mail_subject: ${MAILER_SUBJECT}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 
   r2dbc:
@@ -58,6 +59,16 @@ payments:
 
 
 cors:
-  api_key: "123"
+  api_key: ${API_KEY}
   allowed_origins:
     - http://localhost:3000
+
+
+cloudflare:
+  account_id: ${CLOUDFLARE_ACCOUNT_ID}
+  r2:
+    access_key: ${CLOUDFLARE_R2_ACCESS_ID}
+    secret_key: ${CLOUDFLARE_R2_SECRET_ID}
+    bucket: ${CLOUDFLARE_R2_BUCKET}
+    link_days_valid: ${CLOUDFLARE_R2_LINK_DAYS_VALID}
+    file_name: ${CLOUDFLARE_R2_FILE_NAME}

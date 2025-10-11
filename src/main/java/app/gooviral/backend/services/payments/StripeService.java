@@ -1,5 +1,8 @@
 package app.gooviral.backend.services.payments;
 
+import app.gooviral.backend.config.StripeConfig;
+import app.gooviral.backend.services.EmailService;
+import app.gooviral.backend.services.R2Services;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,28 +15,41 @@ import com.stripe.net.Webhook;
 import com.stripe.param.PaymentLinkCreateParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import app.gooviral.backend.config.StripeConfig;
-import app.gooviral.backend.services.EmailService;
-import app.gooviral.backend.services.R2Services;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring6.SpringTemplateEngine;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
+import java.time.Year;
 import java.util.HashMap;
 import java.util.Map;
 
 @Service
 public class StripeService {
 
+    @Value("${spring.mail.mail_subject}")
+    private String subject;
+
+    @Value("${payments.stripe.price_id}")
+    private String priceId;
+
+    @Value("${cloudflare.r2.link_days_valid}")
+    private String linkDaysValid;
+
     private static final Logger logger = LoggerFactory.getLogger(StripeService.class);
 
     private final StripeConfig stripeConfig;
     private final R2Services r2Services;
     private final EmailService emailService;
+    private final SpringTemplateEngine templateEngine;
 
-    public StripeService(StripeConfig stripeConfig, R2Services r2Services, EmailService emailService) {
+    public StripeService(StripeConfig stripeConfig, R2Services r2Services, EmailService emailService, SpringTemplateEngine templateEngine) {
         this.stripeConfig = stripeConfig;
         this.r2Services = r2Services;
         this.emailService = emailService;
+        this.templateEngine = templateEngine;
     }
 
     public Mono<PaymentLink> createPayment() {
@@ -41,7 +57,7 @@ public class StripeService {
             PaymentLinkCreateParams params = PaymentLinkCreateParams.builder()
                 .addLineItem(
                     PaymentLinkCreateParams.LineItem.builder()
-                        .setPrice("price_1SEV8iIUQlx8lp2SeHPxHU0e")
+                        .setPrice(priceId)
                         .setQuantity(1L)
                         .build()
                 )
@@ -99,8 +115,7 @@ public class StripeService {
 
         if (customerEmail != null) {
             r2Services.getDownloadUrl()
-                .subscribe(downloadUrl ->
-                        emailService.sendDownloadLink(customerEmail, downloadUrl),
+                .subscribe(downloadUrl -> sendDownloadLink(customerEmail, downloadUrl),
                     error -> logger.error("Failed to generate download URL", error)
                 );
         } else {
@@ -123,5 +138,22 @@ public class StripeService {
         }
     }
 
+    public void sendDownloadLink(String email, String downloadUrl) {
+        Context userContext = getContext(downloadUrl);
+        String userHtml = templateEngine.process("send-link", userContext);
+
+        Mono.fromRunnable(() -> emailService.sendEmail(email, subject, userHtml))
+            .subscribeOn(Schedulers.boundedElastic())
+            .doOnError(e -> logger.error("Failed to send email", e))
+            .subscribe();
+    }
+
+    private Context getContext(String downloadUrl) {
+        Context userContext = new Context();
+        userContext.setVariable("downloadLink", downloadUrl);
+        userContext.setVariable("currentYear", Year.now());
+        userContext.setVariable("linkDaysValid", linkDaysValid);
+        return userContext;
+    }
 
 }

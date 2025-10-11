@@ -94,7 +94,7 @@
 			</plugin>
 		</plugins>
 
-        <finalName>gooviral-backend</finalName>
+        <finalName>gooviral</finalName>
 	</build>
 
 </project>

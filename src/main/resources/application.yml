@@ -56,12 +56,14 @@ payments:
   stripe:
     secret_key: ${PAYMENTS_STRIPE_SECRET_KEY}
     webhook_secret_key: ${PAYMENTS_STRIPE_WEBHOOK_SECRET_KEY}
+    price_id: ${PAYMENTS_STRIPE_PRICE_ID}
 
 
 cors:
   api_key: ${API_KEY}
   allowed_origins:
-    - http://localhost:3000
+    - https://gooviral.app
+    - https://www.gooviral.app
 
 
 cloudflare:

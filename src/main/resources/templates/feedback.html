@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Contact Form Message</title>
+
+  <style>
+      body {
+          margin: 0;
+          padding: 0;
+          background-color: #f6f7fb;
+          font-family: "Poppins", -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+          color: #0f172a;
+      }
+
+      .email-wrapper {
+          max-width: 640px;
+          margin: 0 auto;
+          padding: 32px 16px;
+      }
+
+      .card {
+          background: #fff;
+          border-radius: 1.56rem;
+          box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+          padding: 32px;
+      }
+
+      h1 {
+          font-size: 22px;
+          font-weight: 700;
+          margin-bottom: 16px;
+          text-align: center;
+      }
+
+      p {
+          font-size: 15px;
+          line-height: 1.7;
+          color: #1e293b;
+          margin-bottom: 12px;
+      }
+
+      .info-box {
+          background-color: #f9fafb;
+          border: 1px solid #e2e8f0;
+          border-radius: 1rem;
+          padding: 12px 22px;
+          margin-bottom: 20px;
+      }
+
+      .info-box strong {
+          display: inline-block;
+          width: 80px;
+          color: #0f172a;
+      }
+
+      .message-box {
+          background-color: #fff7ed;
+          border-left: 4px solid #FE7F2D;
+          padding: 16px 20px;
+          border-radius: 0.75rem;
+          margin-top: 10px;
+          white-space: pre-wrap;
+          word-break: break-word;
+          color: #1e293b;
+      }
+
+      .divider {
+          border: none;
+          border-top: 1px solid #e2e8f0;
+          margin: 28px 0;
+      }
+
+      .footer {
+          text-align: center;
+          color: #94a3b8;
+          font-size: 12px;
+          margin-top: 24px;
+      }
+
+      @media (max-width: 480px) {
+          .card {
+              padding: 24px;
+          }
+
+          h1 {
+              font-size: 20px;
+          }
+
+          .info-box strong {
+              width: 70px;
+          }
+      }
+  </style>
+</head>
+<body>
+<div class="email-wrapper">
+  <div class="card">
+    <h1>New Contact Form Submission</h1>
+
+    <p>You have received a new message from your website contact form:</p>
+
+    <div class="info-box">
+      <p><strong>Name:</strong> <span th:text="${name}">John Doe</span></p>
+      <p><strong>Email:</strong> <a th:href="'mailto:' + ${email}" th:text="${email}">john@example.com</a></p>
+    </div>
+
+    <p><strong>Message:</strong></p>
+    <div class="message-box" th:text="${message}">
+      This is a sample message from the contact form.
+    </div>
+
+    <hr class="divider">
+
+    <p class="center" style="font-size: 13px; color: #94a3b8;">– Website Contact Form Notification</p>
+  </div>
+
+  <div class="footer">
+    <p>© <span th:text="${currentYear}"></span> GooViral. All rights reserved.</p>
+  </div>
+</div>
+</body>
+</html>

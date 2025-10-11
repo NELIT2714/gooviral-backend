@@ -1,6 +1,8 @@
 package app.gooviral.backend.controllers;
 
 import app.gooviral.backend.services.payments.StripeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
@@ -10,6 +12,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/v1/payments")
 public class PaymentsController {
+
+    private static final Logger logger = LoggerFactory.getLogger(PaymentsController.class);
 
     private final StripeService stripeService;
 
@@ -27,9 +31,12 @@ public class PaymentsController {
                 );
                 return ResponseEntity.ok(response);
             })
-            .onErrorResume(e -> Mono.just(ResponseEntity.status(500).body(Map.of(
-                "status", false
-            ))));
+            .onErrorResume(e -> {
+                logger.error("Failed to create payment", e);
+                return Mono.just(ResponseEntity.status(500).body(Map.of(
+                    "status", false
+                )));
+            });
     }
 
     @PostMapping("/stripe/webhook")

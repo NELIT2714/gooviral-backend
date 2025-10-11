@@ -12,9 +12,19 @@ public class CorsProperties {
     private String apiKey;
     private List<String> allowedOrigins;
 
-    public String getApiKey() { return apiKey; }
-    public void setApiKey(String apiKey) { this.apiKey = apiKey; }
+    public String getApiKey() {
+        return apiKey;
+    }
 
-    public List<String> getAllowedOrigins() { return allowedOrigins; }
-    public void setAllowedOrigins(List<String> allowedOrigins) { this.allowedOrigins = allowedOrigins; }
+    public void setApiKey(String apiKey) {
+        this.apiKey = apiKey;
+    }
+
+    public List<String> getAllowedOrigins() {
+        return allowedOrigins;
+    }
+
+    public void setAllowedOrigins(List<String> allowedOrigins) {
+        this.allowedOrigins = allowedOrigins;
+    }
 }

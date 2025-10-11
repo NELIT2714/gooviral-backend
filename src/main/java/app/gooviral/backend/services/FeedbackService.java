@@ -42,7 +42,10 @@ public class FeedbackService {
         Context userContext = new Context();
         userContext.setVariable("name", feedbackDTO.getName());
         userContext.setVariable("email", feedbackDTO.getEmail());
-        userContext.setVariable("message", feedbackDTO.getMessage());
+
+        String messageHtml = feedbackDTO.getMessage().replace("\n", "<br>").replace("\r", "");
+
+        userContext.setVariable("message", messageHtml);
         return userContext;
     }
 
